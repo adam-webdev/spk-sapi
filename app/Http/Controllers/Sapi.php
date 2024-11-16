@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SapiExport;
+use App\Imports\SapiImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class Sapi extends Controller
 {
@@ -22,6 +26,10 @@ class Sapi extends Controller
     public function create()
     {
         return view('sapi.create');
+    }
+    public function formInput()
+    {
+        return view('sapi.import');
     }
 
     /**
@@ -140,5 +148,35 @@ class Sapi extends Controller
         }
         $sapi->delete();
         return redirect('/sapi');
+    }
+
+
+    public function ImportData(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+
+            'file_import' => 'required|mimes:xlsx,csv,xls'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        Excel::import(new SapiImport, $request->file('file_import'));
+
+
+        Alert::success('Berhasil', 'Data berhasil dimasukan');
+        return redirect()->route('sapi.index');
+    }
+
+    public function ExportExcel()
+    {
+        return Excel::download(new SapiExport, 'sapi.xlsx');
+    }
+
+    public function ExportCSV()
+    {
+        return Excel::download(new SapiExport, 'sapi.csv', \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 }

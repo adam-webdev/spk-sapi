@@ -1,6 +1,7 @@
 @extends('layouts.layoutmaster')
 
 @section('content')
+
  <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -9,10 +10,21 @@
             <div class="card-body">
               <div class="d-flex justify-content-between ">
                 <h5 class="card-title">Data Sapi</h5>
+                <div class="mt-3">
+                  <a href="{{route('sapi.importForm')}}"  style="background: rgb(33, 222, 222)" class="btn text-white" >
+                   <i class="fas fa-file-excel"></i>Import Excel
+                    </a>
 
-                <a href="{{route('sapi.create')}}" class="mt-2">
-                  <button type="button" class="btn button-tambah"><i class="bi bi-plus me-1"></i> Tambah</button>
-                </a>
+                  <a href="{{ route('sapi.excel') }}" class="btn text-white" style="background: rgb(53, 162, 162)"><i
+                          class="fas fa-table"></i>Export
+                      Excel</a>
+                  <a href="{{ route('sapi.csv') }}" class="btn text-white" style="background: rgb(15, 136, 136)"><i
+                          class="fas fa-file-csv"></i></i>Export
+                      CSV</a>
+                  <a href="{{route('sapi.create')}}" class="mt-2">
+                    <button type="button" class="btn button-tambah"><i class="bi bi-plus me-1"></i> Tambah</button>
+                  </a>
+                </div>
                 </div>
               <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p> -->
 
