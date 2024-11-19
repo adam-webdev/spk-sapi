@@ -7,11 +7,11 @@
 
 
   <div class="card p-4">
-      <h2>Import Data
+      <h2>Import Data Testing
       </h2>
     <div class="body">
       <div class="col-md-12 col-lg-12">
-        <form action="{{ route('sapi.import') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('sapi.import.testing') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <label for="path">Upload File Excel/CSV format(.xlsx,  .csv)</label>

@@ -149,13 +149,42 @@
               <i class="bi bi-circle"></i><span>Data Sapi</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="{{route('sapi.importForm')}}">
               <i class="bi bi-circle"></i><span>Import Sapi</span>
+            </a>
+          </li> -->
+          <li>
+            <a href="{{route('sapi-testing.index')}}">
+              <i class="bi bi-circle"></i><span>Data Testing</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Algoritma</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{{route('fuzzy-c-means')}}">
+              <i class="bi bi-circle"></i><span>Fuzzy C-Means</span>
+            </a>
+          </li>
+          <!-- <li>
+            <a href="{{route('sapi.importForm')}}">
+              <i class="bi bi-circle"></i><span>Import Sapi</span>
+            </a>
+          </li> -->
+          <li>
+            <a href="{{route('fuzzy-tahani')}}">
+              <i class="bi bi-circle"></i><span>Fuzzy Tahani</span>
             </a>
           </li>
         </ul>
       </li><!-- End Tables Nav -->
+
+      <!-- End Tables Nav -->
 
 
 
@@ -189,12 +218,13 @@
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
+  <!-- <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><span>MySistem</span></strong>. All Rights Reserved
     </div>
 
-  </footer><!-- End Footer -->
+  </footer> -->
+  <!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

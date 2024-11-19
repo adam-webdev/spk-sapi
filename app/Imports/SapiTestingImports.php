@@ -2,18 +2,13 @@
 
 namespace App\Imports;
 
-use App\Models\Sapi;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\OnEachRow;
+use App\Models\SapiTesting;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
-use Maatwebsite\Excel\Concerns\WithUpserts;
-use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SapiImport implements ToModel, WithStartRow
+class SapiTestingImports implements ToModel, WithStartRow
 {
     /**
      * @param array $row
@@ -67,19 +62,19 @@ class SapiImport implements ToModel, WithStartRow
         // if ($row[13] == 'delete') {
         //     Sapi::where('id', $row[0])->delete();
         // } else {
-        return new Sapi([
+        return new SapiTesting([
             'jenis_sapi' => $row[1],
             'umur' => $row[2],
-            'jenis_kelamin' => $row[3],
-            'berat' => $row[4],
-            'kondisi_mulut_datar' => $row[5],
-            'kepala' => $row[6],
-            'leher_bergelambir' => $row[7],
-            'punggung_datar' => $row[8],
-            'ekor_tidak_ada_legokan' => $row[9],
-            'kaki_tegak_besar' => $row[10],
-            'kondisi_gigi_lengkap' => $row[11],
-            'kondisi_mata_normal' => $row[12],
+            // 'jenis_kelamin' => $row[3],
+            'berat' => $row[3],
+            'kondisi_mulut_datar' => $row[4],
+            // 'kepala' => $row[6],
+            // 'leher_bergelambir' => $row[7],
+            'punggung_datar' => $row[5],
+            // 'ekor_tidak_ada_legokan' => $row[9],
+            // 'kaki_tegak_besar' => $row[10],
+            'kondisi_gigi_lengkap' => $row[6],
+            'kondisi_mata_normal' => $row[7],
         ]);
         // }
     }

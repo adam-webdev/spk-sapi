@@ -2,24 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\SapiExport;
 use App\Exports\SapiTestingExports;
-use App\Imports\SapiImport;
 use App\Imports\SapiTestingImports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class Sapi extends Controller
+class SapiTestingController extends Controller
 {
+    // data sapi Testing
+
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $sapi = \App\Models\Sapi::all();
-        return view('sapi.index', ['sapi' => $sapi]);
+        $sapi = \App\Models\SapiTesting::all();
+        return view('testing.sapi.index', ['sapi' => $sapi]);
     }
 
     /**
@@ -27,13 +29,8 @@ class Sapi extends Controller
      */
     public function create()
     {
-        return view('sapi.create');
+        return view('testing.sapi.create');
     }
-    public function formInput()
-    {
-        return view('sapi.import');
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -42,14 +39,9 @@ class Sapi extends Controller
         $validator = Validator::make($request->all(), [
             'jenis_sapi' => 'required',
             'umur' => 'required',
-            'jenis_kelamin' => 'required',
             'berat' => 'required',
             'kondisi_mulut_datar' => 'required',
-            'kepala' => 'required',
-            'leher_bergelambir' => 'required',
             'punggung_datar' => 'required',
-            'ekor_tidak_ada_legokan' => 'required',
-            'kaki_tegak_besar' => 'required',
             'kondisi_gigi_lengkap' => 'required',
             'kondisi_mata_normal' => 'required',
         ]);
@@ -57,7 +49,7 @@ class Sapi extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $sapi = new \App\Models\Sapi;
+        $sapi = new \App\Models\SapiTesting();
         $sapi->jenis_sapi = $request->jenis_sapi;
         $sapi->umur = $request->umur;
         $sapi->jenis_kelamin = $request->jenis_kelamin;
@@ -71,7 +63,7 @@ class Sapi extends Controller
         $sapi->kondisi_gigi_lengkap = $request->kondisi_gigi_lengkap;
         $sapi->kondisi_mata_normal = $request->kondisi_mata_normal;
         $sapi->save();
-        return redirect('/sapi');
+        return redirect('/sapi-testing');
     }
 
     /**
@@ -79,11 +71,11 @@ class Sapi extends Controller
      */
     public function show(string $id)
     {
-        $sapi = \App\Models\Sapi::find($id);
+        $sapi = \App\Models\SapiTesting::find($id);
         if (!$sapi) {
-            return redirect('/sapi');
+            return redirect('/sapi-testing');
         }
-        return view('sapi.show', ['sapi' => $sapi]);
+        return view('testing.sapi.show', ['sapi' => $sapi]);
     }
 
     /**
@@ -91,8 +83,8 @@ class Sapi extends Controller
      */
     public function edit(string $id)
     {
-        $sapi = \App\Models\Sapi::find($id);
-        return view('sapi.edit', ['sapi' => $sapi]);
+        $sapi = \App\Models\SapiTesting::find($id);
+        return view('testing.sapi.edit', ['sapi' => $sapi]);
     }
 
     /**
@@ -103,14 +95,9 @@ class Sapi extends Controller
         $validator = Validator::make($request->all(), [
             'jenis_sapi' => 'required',
             'umur' => 'required',
-            'jenis_kelamin' => 'required',
             'berat' => 'required',
             'kondisi_mulut_datar' => 'required',
-            'kepala' => 'required',
-            'leher_bergelambir' => 'required',
             'punggung_datar' => 'required',
-            'ekor_tidak_ada_legokan' => 'required',
-            'kaki_tegak_besar' => 'required',
             'kondisi_gigi_lengkap' => 'required',
             'kondisi_mata_normal' => 'required',
         ]);
@@ -119,9 +106,9 @@ class Sapi extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $sapi = \App\Models\Sapi::find($id);
+        $sapi = \App\Models\SapiTesting::find($id);
         if (!$sapi) {
-            return redirect('/sapi');
+            return redirect('/sapi-testing');
         }
         $sapi->jenis_sapi = $request->jenis_sapi;
         $sapi->umur = $request->umur;
@@ -136,7 +123,7 @@ class Sapi extends Controller
         $sapi->kondisi_gigi_lengkap = $request->kondisi_gigi_lengkap;
         $sapi->kondisi_mata_normal = $request->kondisi_mata_normal;
         $sapi->save();
-        return redirect('/sapi');
+        return redirect('/sapi-testing');
     }
 
     /**
@@ -144,16 +131,22 @@ class Sapi extends Controller
      */
     public function destroy(string $id)
     {
-        $sapi = \App\Models\Sapi::find($id);
+        $sapi = \App\Models\SapiTesting::find($id);
         if (!$sapi) {
-            return redirect('/sapi');
+            return redirect('/sapi-testing');
         }
         $sapi->delete();
-        return redirect('/sapi');
+        return redirect('/sapi-testing');
     }
 
 
-    public function ImportData(Request $request)
+    public function formInputTesting()
+    {
+        return view('testing.sapi.import');
+    }
+
+
+    public function ImportDataTesting(Request $request)
     {
         $validator = Validator::make($request->all(), [
 
@@ -163,21 +156,21 @@ class Sapi extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        Excel::import(new SapiImport, $request->file('file_import'));
+        Excel::import(new SapiTestingImports, $request->file('file_import'));
 
 
         Alert::success('Berhasil', 'Data berhasil dimasukan');
-        return redirect()->route('sapi.index');
+        return redirect()->route('sapi-testing.index');
     }
 
-    public function ExportExcel()
+    public function ExportExcelTesting()
     {
-        return Excel::download(new SapiExport, 'sapi.xlsx');
+        return Excel::download(new SapiTestingExports, 'sapitesting.xlsx');
     }
 
-    public function ExportCSV()
+    public function ExportCSVTesting()
     {
-        return Excel::download(new SapiExport, 'sapi.csv', \Maatwebsite\Excel\Excel::CSV, [
+        return Excel::download(new SapiTestingExports, 'sapitesting.csv', \Maatwebsite\Excel\Excel::CSV, [
             'Content-Type' => 'text/csv',
         ]);
     }
