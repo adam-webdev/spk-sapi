@@ -12,9 +12,9 @@
               <div class="d-flex justify-content-between ">
                 <h5 class="card-title">Data Sapi Testing</h5>
                 <div class="mt-3">
-                  <!-- <a href="{{route('sapi.importForm.testing')}}"  style="background: rgb(33, 222, 222)" class="btn text-white" >
+                  <a href="{{route('sapi.importForm.testing')}}"  style="background: rgb(33, 222, 222)" class="btn text-white" >
                    <i class="fas fa-file-excel"></i>Import Excel
-                    </a> -->
+                    </a>
 
                   <a href="{{ route('sapi.excel.testing') }}" class="btn text-white" style="background: rgb(53, 162, 162)"><i
                           class="fas fa-table"></i>Export

@@ -72,18 +72,18 @@
                       </div>
                     </td>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$sapi->jenis_sapi}}</td>
+                    <td>{{$sapi->id}} - {{$sapi->jenis_sapi}}</td>
                     <td>{{$sapi->umur}}</td>
-                    <td>{{$sapi->jenis_kelamin == 1 ? 'Jantan' : 'Betina'}}</td>
+                    <td>{{$sapi->jenis_kelamin }}</td>
                     <td>{{$sapi->berat}}</td>
-                    <td>{{$sapi->kondisi_mulut_datar == 1 ? 'Datar' : 'Papak'}}</td>
-                    <td>{{$sapi->kepala == 1 ? 'Ya' : 'Tdk'}}</td>
-                    <td>{{$sapi->leher_bergelambir == 1 ? 'Ya' : 'Tdk' }}</td>
-                    <td>{{$sapi->punggung_datar == 1 ? 'Datar' : 'Melengkung' }}</td>
-                    <td>{{$sapi->ekor_tidak_ada_legokan == 1 ? 'Ya' : 'Tdk' }}</td>
-                    <td>{{$sapi->kaki_tegak_besar == 1 ? 'Ya' : 'Tdk' }}</td>
-                    <td>{{$sapi->kondisi_gigi_lengkap == 1 ? 'Ya' : 'Tdk' }}</td>
-                    <td>{{$sapi->kondisi_mata_normal == 1 ? 'Normal' : 'Menurun' }}</td>
+                    <td>{{$sapi->kondisi_mulut_datar }}</td>
+                    <td>{{$sapi->kepala}}</td>
+                    <td>{{$sapi->leher_bergelambir}}</td>
+                    <td>{{$sapi->punggung_datar}}</td>
+                    <td>{{$sapi->ekor_tidak_ada_legokan }}</td>
+                    <td>{{$sapi->kaki_tegak_besar}}</td>
+                    <td>{{$sapi->kondisi_gigi_lengkap }}</td>
+                    <td>{{$sapi->kondisi_mata_normal }}</td>
 
                   </tr>
                   @endforeach

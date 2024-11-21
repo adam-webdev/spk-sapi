@@ -17,14 +17,14 @@ return new class extends Migration
             $table->integer('umur');
             $table->string('jenis_kelamin');
             $table->integer('berat');
-            $table->integer('kondisi_mulut_datar');
-            $table->integer('kepala');
-            $table->integer('leher_bergelambir');
-            $table->integer('punggung_datar');
-            $table->integer('ekor_tidak_ada_legokan');
-            $table->integer('kaki_tegak_besar');
-            $table->integer('kondisi_gigi_lengkap');
-            $table->integer('kondisi_mata_normal');
+            $table->string('kondisi_mulut_datar');
+            $table->string('kepala');
+            $table->string('leher_bergelambir');
+            $table->string('punggung_datar');
+            $table->string('ekor_tidak_ada_legokan');
+            $table->string('kaki_tegak_besar');
+            $table->string('kondisi_gigi_lengkap');
+            $table->string('kondisi_mata_normal');
             $table->timestamps();
         });
     }

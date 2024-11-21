@@ -35,6 +35,10 @@ Route::group(['middleware' => 'auth'], function () {
     // algoritma
 
     Route::get('/fuzzy-c-means', [AlgoritmaController::class, 'fcm'])->name('fuzzy-c-means');
+    Route::post('/fuzzy-c-means', [AlgoritmaController::class, 'processFCM'])->name('fuzzy-c-means.process');
+
+
+
     Route::get('/fuzzy-tahani', [AlgoritmaController::class, 'ftahani'])->name('fuzzy-tahani');
 });
 

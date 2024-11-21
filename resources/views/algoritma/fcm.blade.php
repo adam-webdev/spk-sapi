@@ -14,7 +14,7 @@
 
               </div>
                 <hr >
-              <form class="row g-3 mt-3" method="post" action="{{route('sapi.store')}}">
+              <form class="row g-3 mt-3" method="post" action="{{route('fuzzy-c-means.process')}}">
                 @csrf
                 <div class="form-group row">
                   <div class="col-md-6">

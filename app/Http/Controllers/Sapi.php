@@ -7,6 +7,7 @@ use App\Exports\SapiTestingExports;
 use App\Imports\SapiImport;
 use App\Imports\SapiTestingImports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -163,6 +164,7 @@ class Sapi extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         Excel::import(new SapiImport, $request->file('file_import'));
 
 
@@ -180,5 +182,141 @@ class Sapi extends Controller
         return Excel::download(new SapiExport, 'sapi.csv', \Maatwebsite\Excel\Excel::CSV, [
             'Content-Type' => 'text/csv',
         ]);
+    }
+
+
+    // normalisasi data sapi
+    public function normalisasiDataSapi()
+    {
+        $data = Sapi::all()
+            ->whereNotNull('jenis_sapi')
+            ->whereNotNull('umur')
+            ->whereNotNull('jenis_kelamin')
+            ->whereNotNull('berat')
+            ->whereNotNull('kondisi_mulut_datar')
+            ->whereNotNull('kepala')
+            ->whereNotNull('leher_bergelambir')
+            ->whereNotNull('punggung_datar')
+            ->whereNotNull('ekor_tidak_ada_legokan')
+            ->whereNotNull('kaki_tegak_besar')
+            ->whereNotNull('kondisi_gigi_lengkap')
+            ->whereNotNull('kondisi_mata_normal');
+        // ->where('jenis_sapi', '!=', '-')
+        // ->where('berat', '!=', '0')
+        // ->where('umur', '!=', '0')
+        // ->where('umur', '<=', '2500000');
+
+
+        $datasetSapi = [];
+        foreach ($data as $key => $value) {
+            $rowDataset = [
+                'x_sapi_id' => $value->id,
+                'x1' => 0,
+                'x2' => 0,
+                'x3' => 0,
+                'x4' => 0,
+                'x5' => 0,
+                'x6' => 0,
+                'x7' => 0,
+                'x8' => 0,
+                'x9' => 0,
+                'x10' => 0,
+                'x11' => 0,
+            ];
+
+            //x1 umur
+            if ($value->umur > 50) {
+                $rowDataset['x1'] = 4;
+            } elseif ($value->umur > 35 && $value->umur <= 50) {
+                $rowDataset['x1'] = 3;
+            } elseif ($value->umur > 24 && $value->umur <= 35) {
+                $rowDataset['x1'] = 2;
+            } elseif ($value->umur < 24) {
+                $rowDataset['x1'] = 1;
+            }
+
+            //x2 jenis kelamin
+            if (str_contains(strtolower($value->jenis_kelamin), 'jantan')) {
+                $rowDataset['x2'] = 2;
+            } else {
+                $rowDataset['x2'] = 1;
+            }
+
+            //x3 berat
+            if ($value->berat > 450) {
+                $rowDataset['x3'] = 4;
+            } elseif ($value->berat > 300 && $value->berat <= 450) {
+                $rowDataset['x3'] = 3;
+            } elseif ($value->berat > 150 && $value->berat <= 300) {
+                $rowDataset['x3'] = 2;
+            } elseif ($value->berat < 150) {
+                $rowDataset['x3'] = 1;
+            }
+
+            //x4 kondisi_mulut_datar
+            if (str_contains(strtolower($value->kondisi_mulut_datar), 'datar')) {
+                $rowDataset['x4'] = 2;
+            } else {
+                $rowDataset['x4'] = 1;
+            }
+
+            //x5 ukuran kepala sesuai dengan berat
+            if (str_contains(strtolower($value->kepala), 'ya')) {
+                $rowDataset['x5'] = 2;
+            } else {
+                $rowDataset['x5'] = 1;
+            }
+
+            //x6 leher bergelambir
+            if (str_contains(strtolower($value->leher_bergelambir), 'ya')) {
+                $rowDataset['x6'] = 2;
+            } else {
+                $rowDataset['x6'] = 1;
+            }
+
+            //x7 punggung datar
+            if (str_contains(strtolower($value->punggung_datar), 'datar')) {
+                $rowDataset['x7'] = 2;
+            } else {
+                $rowDataset['x7'] = 1;
+            }
+
+            //x8 Ekor tidak ada legokan
+            if (str_contains(strtolower($value->ekor_tidak_ada_legokan), 'ya')) {
+                $rowDataset['x8'] = 2;
+            } else {
+                $rowDataset['x8'] = 1;
+            }
+
+            //x9 Kaki tegak besar
+            if (str_contains(strtolower($value->kaki_tegak_besar), 'ya')) {
+                $rowDataset['x9'] = 2;
+            } else {
+                $rowDataset['x9'] = 1;
+            }
+
+            //x10 kondisi gigi lengkap
+            if (str_contains(strtolower($value->kondisi_gigi_lengkap), 'ya')) {
+                $rowDataset['x10'] = 2;
+            } else {
+                $rowDataset['x10'] = 1;
+            }
+
+            //x11 kondisi mata normal / menurun
+            if (str_contains(strtolower($value->kondisi_mata_normal), 'normal')) {
+                $rowDataset['x11'] = 2;
+            } else {
+                $rowDataset['x11'] = 1;
+            }
+
+            array_push($datasetSapi, $rowDataset);
+        }
+
+
+
+        DB::table('dataset')->truncate();
+        DB::table('dataset')->insert($datasetSapi);
+
+        return redirect('dataset');
     }
 }
