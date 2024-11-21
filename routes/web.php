@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sapi-export', [Sapi::class, 'ExportExcel'])->name('sapi.excel');
     Route::get('/sapi-exportcsv', [Sapi::class, 'ExportCSV'])->name('sapi.csv');
     Route::get('/sapi-import-form', [Sapi::class, 'formInput'])->name('sapi.importForm');
+    Route::get('/load-sapi', [Sapi::class, 'normalisasiDataSapi']);
 
 
     // sapi testing

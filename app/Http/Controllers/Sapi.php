@@ -6,6 +6,7 @@ use App\Exports\SapiExport;
 use App\Exports\SapiTestingExports;
 use App\Imports\SapiImport;
 use App\Imports\SapiTestingImports;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -188,7 +189,7 @@ class Sapi extends Controller
     // normalisasi data sapi
     public function normalisasiDataSapi()
     {
-        $data = Sapi::all()
+        $data = \App\Models\Sapi::all()
             ->whereNotNull('jenis_sapi')
             ->whereNotNull('umur')
             ->whereNotNull('jenis_kelamin')
@@ -309,13 +310,14 @@ class Sapi extends Controller
                 $rowDataset['x11'] = 1;
             }
 
+            $rowDataset['created_at'] = Carbon::now();
+            $rowDataset['updated_at'] = Carbon::now();
             array_push($datasetSapi, $rowDataset);
         }
 
 
-
-        DB::table('dataset')->truncate();
-        DB::table('dataset')->insert($datasetSapi);
+        DB::table('dataset_sapis')->truncate();
+        DB::table('dataset_sapis')->insert($datasetSapi);
 
         return redirect('dataset');
     }

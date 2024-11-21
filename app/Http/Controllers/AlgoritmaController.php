@@ -33,29 +33,17 @@ class AlgoritmaController extends Controller
     // has converged
     private function hasConverged($newMatrix, $oldMatrix, $epsilon)
     {
-        // foreach ($newMatrix as $i => $row) {
-        //     foreach ($row as $j => $value) {
-        //         if (abs($value - $oldMatrix[$i][$j]) > $epsilon) {
-        //             return false;
-        //         }
-        //     }
-        // }
-        // return true;
-        // dd('Converged', $newMatrix, $oldMatrix);
-
         foreach ($newMatrix as $i => $row) {
             foreach ($row as $j => $value) {
-                $difference = abs($value - $oldMatrix[$i][$j]);
-                // Log perubahan antara matriks keanggotaan lama dan baru
-                if ($difference > $epsilon) {
+                if (abs($value - $oldMatrix[$i][$j]) > $epsilon) {
                     return false;
                 }
             }
         }
-
-        // Debugging: log perubahan untuk setiap iterasi
-
         return true;
+        // dd('Converged', $newMatrix, $oldMatrix);
+
+
     }
 
 
@@ -156,6 +144,55 @@ class AlgoritmaController extends Controller
             'finalObjectiveFunction' => $objectiveFunction,
         ]);
     }
+
+
+    // kode generate matrix awal 2,3,4,5
+    function generateMatriksAwal($jumlahCluster, $jumlahData)
+    {
+        $matriks = [];
+        for ($i = 0; $i < $jumlahData; $i++) {
+            $row = [];
+            $sum = 0;
+            for ($j = 0; $j < $jumlahCluster; $j++) {
+                $row[$j] = rand(1, 100) / 100; // Random nilai antara 0.01–1.00
+                $sum += $row[$j];
+            }
+            // Normalisasi nilai agar total tiap baris = 1
+            for ($j = 0; $j < $jumlahCluster; $j++) {
+                $row[$j] = $row[$j] / $sum;
+            }
+            $matriks[] = $row;
+        }
+        return $matriks;
+    }
+    function simpanMatriksAwal($jumlahCluster, $jumlahData)
+    {
+        $matriks = $this->generateMatriksAwal($jumlahCluster, $jumlahData);
+
+        // Tentukan tabel berdasarkan jumlah cluster
+        $tableName = 'matriks_' . $jumlahCluster;
+
+        foreach ($matriks as $row) {
+            $data = [];
+            for ($i = 0; $i < $jumlahCluster; $i++) {
+                $data['matriks_' . $jumlahCluster . '_' . ($i + 1)] = $row[$i];
+            }
+            DB::table($tableName)->insert($data);
+        }
+
+        return "Matriks awal untuk cluster {$jumlahCluster} berhasil disimpan!";
+    }
+    function generateDanSimpanSemuaMatriks($jumlahData)
+    {
+        for ($jumlahCluster = 2; $jumlahCluster <= 5; $jumlahCluster++) {
+            $this->simpanMatriksAwal($jumlahCluster, $jumlahData);
+        }
+        return "Semua matriks awal berhasil digenerate dan disimpan!";
+    }
+
+
+
+
 
 
 
