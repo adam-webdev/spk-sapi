@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sapi;
 use App\Models\SapiTesting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlgoritmaController extends Controller
 {
@@ -152,19 +153,20 @@ class AlgoritmaController extends Controller
         $matriks = [];
         for ($i = 0; $i < $jumlahData; $i++) {
             $row = [];
-            $sum = 0;
-            for ($j = 0; $j < $jumlahCluster; $j++) {
-                $row[$j] = rand(1, 100) / 100; // Random nilai antara 0.01–1.00
-                $sum += $row[$j];
-            }
-            // Normalisasi nilai agar total tiap baris = 1
-            for ($j = 0; $j < $jumlahCluster; $j++) {
-                $row[$j] = $row[$j] / $sum;
-            }
+            $firstValue = round(mt_rand(1, 99) / 100, 2); // Nilai random 0.01 - 0.99
+            $secondValue = round(1 - $firstValue, 2); // Pastikan total = 1
+            $row[] = $firstValue;
+            $row[] = $secondValue;
+
             $matriks[] = $row;
         }
+        // dd($matriks);
         return $matriks;
     }
+
+    // Contoh penggunaan
+
+
     function simpanMatriksAwal($jumlahCluster, $jumlahData)
     {
         $matriks = $this->generateMatriksAwal($jumlahCluster, $jumlahData);
@@ -184,12 +186,18 @@ class AlgoritmaController extends Controller
     }
     function generateDanSimpanSemuaMatriks($jumlahData)
     {
-        for ($jumlahCluster = 2; $jumlahCluster <= 5; $jumlahCluster++) {
-            $this->simpanMatriksAwal($jumlahCluster, $jumlahData);
-        }
+        // for ($jumlahCluster = 2; $jumlahCluster <= 5; $jumlahCluster++) {
+        $cluster = 3;
+        $this->simpanMatriksAwal($cluster, $jumlahData);
+        // }
         return "Semua matriks awal berhasil digenerate dan disimpan!";
     }
 
+    public function genereateMatriksU()
+    {
+        $jumlahData = Sapi::count();
+        return $this->generateDanSimpanSemuaMatriks($jumlahData);
+    }
 
 
 

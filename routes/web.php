@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/load-sapi', [Sapi::class, 'normalisasiDataSapi']);
 
 
+
+
     // sapi testing
     Route::resource('sapi-testing', SapiTestingController::class);
     Route::get('/sapi-testing/{id}/delete', [SapiTestingController::class, 'destroy']);
@@ -38,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/fuzzy-c-means', [AlgoritmaController::class, 'fcm'])->name('fuzzy-c-means');
     Route::post('/fuzzy-c-means', [AlgoritmaController::class, 'processFCM'])->name('fuzzy-c-means.process');
 
-
+    Route::get('/generate-matrix', [AlgoritmaController::class, 'genereateMatriksU']);
 
     Route::get('/fuzzy-tahani', [AlgoritmaController::class, 'ftahani'])->name('fuzzy-tahani');
 });
