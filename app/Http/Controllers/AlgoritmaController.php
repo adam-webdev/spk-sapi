@@ -145,26 +145,37 @@ class AlgoritmaController extends Controller
             'finalObjectiveFunction' => $objectiveFunction,
         ]);
     }
-
-
-    // kode generate matrix awal 2,3,4,5
     function generateMatriksAwal($jumlahCluster, $jumlahData)
     {
         $matriks = [];
         for ($i = 0; $i < $jumlahData; $i++) {
             $row = [];
-            $firstValue = round(mt_rand(1, 99) / 100, 2); // Nilai random 0.01 - 0.99
-            $secondValue = round(1 - $firstValue, 2); // Pastikan total = 1
-            $row[] = $firstValue;
-            $row[] = $secondValue;
+            $remainingValue = 1;
 
+            // Tentukan batas minimum untuk setiap nilai agar tidak ada yang 0
+            $minValue = 0.01; // Nilai minimum per cluster
+            $maxValuePerCluster = $remainingValue - ($jumlahCluster - 1) * $minValue;
+
+            for ($j = 0; $j < $jumlahCluster - 1; $j++) {
+                // Pastikan nilai random > 0 dengan batasan minValue
+                $value = round(mt_rand($minValue * 100, $maxValuePerCluster * 100) / 100, 2);
+                $remainingValue -= $value;
+                $row[] = $value;
+
+                // Update batas nilai maksimum untuk iterasi berikutnya
+                $maxValuePerCluster = $remainingValue - ($jumlahCluster - $j - 2) * $minValue;
+            }
+
+            // Nilai terakhir untuk memenuhi total = 1
+            $row[] = round($remainingValue, 2);
+
+            // Tambahkan baris ke matriks
             $matriks[] = $row;
         }
-        // dd($matriks);
         return $matriks;
     }
 
-    // Contoh penggunaan
+
 
 
     function simpanMatriksAwal($jumlahCluster, $jumlahData)
@@ -179,6 +190,7 @@ class AlgoritmaController extends Controller
             for ($i = 0; $i < $jumlahCluster; $i++) {
                 $data['matriks_' . $jumlahCluster . '_' . ($i + 1)] = $row[$i];
             }
+
             DB::table($tableName)->insert($data);
         }
 
@@ -187,17 +199,17 @@ class AlgoritmaController extends Controller
     function generateDanSimpanSemuaMatriks($jumlahData)
     {
         // for ($jumlahCluster = 2; $jumlahCluster <= 5; $jumlahCluster++) {
-        $cluster = 3;
+        $cluster = 5;
         $this->simpanMatriksAwal($cluster, $jumlahData);
         // }
         return "Semua matriks awal berhasil digenerate dan disimpan!";
     }
 
-    public function genereateMatriksU()
-    {
-        $jumlahData = Sapi::count();
-        return $this->generateDanSimpanSemuaMatriks($jumlahData);
-    }
+    // public function genereateMatriksU()
+    // {
+    //     $jumlahData = Sapi::count();
+    //     return $this->generateDanSimpanSemuaMatriks($jumlahData);
+    // }
 
 
 
