@@ -24,6 +24,15 @@ class Sapi extends Controller
         return view('sapi.index', ['sapi' => $sapi]);
     }
 
+    public function datasetSapi()
+    {
+        $datasetsapi = DB::table('dataset_sapis')
+            ->join('sapis', 'dataset_sapis.x_sapi_id', '=', 'sapis.id')->select('sapis.jenis_sapi', 'dataset_sapis.*')
+            ->get();
+
+        return view('datasetsapi.index', ['datasetsapi' => $datasetsapi]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlgoritmaController;
+use App\Http\Controllers\FCMController;
 use App\Http\Controllers\ImportExportSapiController;
 use App\Http\Controllers\Sapi;
 use App\Http\Controllers\SapiTestingController;
@@ -23,6 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sapi-exportcsv', [Sapi::class, 'ExportCSV'])->name('sapi.csv');
     Route::get('/sapi-import-form', [Sapi::class, 'formInput'])->name('sapi.importForm');
     Route::get('/load-sapi', [Sapi::class, 'normalisasiDataSapi']);
+    Route::get('/dataset-sapi', [Sapi::class, 'datasetSapi'])->name('dataset-sapi');
 
 
 
@@ -35,10 +37,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sapi--testing-exportcsv', [SapiTestingController::class, 'ExportCSVTesting'])->name('sapi.csv.testing');
     Route::get('/sapi-testing-import-form', [SapiTestingController::class, 'formInputTesting'])->name('sapi.importForm.testing');
 
-    // algoritma
+    // algoritma FCM
 
-    Route::get('/fuzzy-c-means', [AlgoritmaController::class, 'fcm'])->name('fuzzy-c-means');
-    Route::post('/fuzzy-c-means', [AlgoritmaController::class, 'processFCM'])->name('fuzzy-c-means.process');
+    Route::get('/fcm-data', [FCMController::class, 'index'])->name('fcm.data');
+
+    Route::get('/fuzzy-c-means', [FCMController::class, 'fcm'])->name('fuzzy-c-means');
+    Route::post('/fuzzy-c-means', [FCMController::class, 'prosesFCM'])->name('fuzzy-c-means.process');
+
+    Route::get('/fuzzy-c-means/{id}', [FCMController::class, 'detail'])->name('fcm.detail');
+
 
     Route::get('/generate-matrix', [AlgoritmaController::class, 'genereateMatriksU']);
 

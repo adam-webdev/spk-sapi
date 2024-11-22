@@ -155,8 +155,8 @@
             </a>
           </li> -->
           <li>
-            <a href="{{route('sapi-testing.index')}}">
-              <i class="bi bi-circle"></i><span>Data Testing</span>
+            <a href="{{route('dataset-sapi')}}">
+              <i class="bi bi-circle"></i><span>Dataset Sapi</span>
             </a>
           </li>
         </ul>
@@ -167,7 +167,7 @@
         </a>
         <ul id="tables-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="{{route('fuzzy-c-means')}}">
+            <a href="{{route('fcm.data')}}">
               <i class="bi bi-circle"></i><span>Fuzzy C-Means</span>
             </a>
           </li>
@@ -239,7 +239,10 @@
   <script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
 
   <!-- Template Main JS File -->
+
   <script src="{{asset('assets/js/main.js')}}"></script>
+
+  @yield('scripts')
 
 </body>
 

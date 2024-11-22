@@ -7,12 +7,30 @@ use Illuminate\Support\Facades\DB;
 
 class FCMController extends Controller
 {
+
+
+    public function fcm()
+    {
+        return view('algoritma.fcm.fcm');
+    }
     public function index()
     {
         //
         $hasilfcm = DB::table('hasilfcm')->orderBy('created_at', 'desc')->get();
-        return view('algoritma.fcm_results', compact('hasilfcm'));
+        return view('algoritma.fcm.index', compact('hasilfcm'));
     }
+
+    public function detail($id)
+    {
+
+        $hasilfcm = DB::table('hasilfcm')->where('id', $id)->first();
+
+        $datasetsapi = DB::table('dataset_sapis')
+            ->join('sapis', 'dataset_sapis.x_sapi_id', '=', 'sapis.id')
+            ->get();
+        return view('algoritma.fcm.detail', compact('hasilfcm', 'datasetsapi'));
+    }
+
     public function prosesFCM(Request $request)
     {
         $jumlahCluster = $request->cluster;
@@ -95,13 +113,6 @@ class FCMController extends Controller
                         $sumC[$i]['∑𝝁i^2*x9'] += $c[$i][$key]['𝝁i^2*x9'];
                         $sumC[$i]['∑𝝁i^2*x10'] += $c[$i][$key]['𝝁i^2*x10'];
                         $sumC[$i]['∑𝝁i^2*x11'] += $c[$i][$key]['𝝁i^2*x11'];
-                        $sumC[$i]['∑𝝁i^2*x12'] += $c[$i][$key]['𝝁i^2*x12'];
-                        $sumC[$i]['∑𝝁i^2*x13'] += $c[$i][$key]['𝝁i^2*x13'];
-                        $sumC[$i]['∑𝝁i^2*x14'] += $c[$i][$key]['𝝁i^2*x14'];
-                        $sumC[$i]['∑𝝁i^2*x15'] += $c[$i][$key]['𝝁i^2*x15'];
-                        $sumC[$i]['∑𝝁i^2*x16'] += $c[$i][$key]['𝝁i^2*x16'];
-                        $sumC[$i]['∑𝝁i^2*x17'] += $c[$i][$key]['𝝁i^2*x17'];
-                        $sumC[$i]['∑𝝁i^2*x18'] += $c[$i][$key]['𝝁i^2*x18'];
                     }
 
                     $pusatC[$i]['∑𝝁i^2*x1'] = $sumC[$i]['∑𝝁i^2*x1'] / $sumC[$i]['∑𝝁i^2'];
@@ -115,13 +126,6 @@ class FCMController extends Controller
                     $pusatC[$i]['∑𝝁i^2*x9'] = $sumC[$i]['∑𝝁i^2*x9'] / $sumC[$i]['∑𝝁i^2'];
                     $pusatC[$i]['∑𝝁i^2*x10'] = $sumC[$i]['∑𝝁i^2*x10'] / $sumC[$i]['∑𝝁i^2'];
                     $pusatC[$i]['∑𝝁i^2*x11'] = $sumC[$i]['∑𝝁i^2*x11'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x12'] = $sumC[$i]['∑𝝁i^2*x12'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x13'] = $sumC[$i]['∑𝝁i^2*x13'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x14'] = $sumC[$i]['∑𝝁i^2*x14'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x15'] = $sumC[$i]['∑𝝁i^2*x15'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x16'] = $sumC[$i]['∑𝝁i^2*x16'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x17'] = $sumC[$i]['∑𝝁i^2*x17'] / $sumC[$i]['∑𝝁i^2'];
-                    $pusatC[$i]['∑𝝁i^2*x18'] = $sumC[$i]['∑𝝁i^2*x18'] / $sumC[$i]['∑𝝁i^2'];
                 }
 
                 foreach ($dataset as $key => $value) {
@@ -339,7 +343,7 @@ class FCMController extends Controller
         //        dd($simpan);
         DB::table('hasilfcm')->insert($hasilfcm);
 
-        return redirect('fcm')->with('status', 'Data berhasil disimpan');
+        return redirect()->route('fcm.data')->with('status', 'Data berhasil disimpan');
     }
 
 
