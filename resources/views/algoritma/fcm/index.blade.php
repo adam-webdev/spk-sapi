@@ -6,10 +6,15 @@
                 <div class="card-content">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <div class="float-right ml-2">
-                                <a href="{{route('fuzzy-c-means')}}" class="btn btn-sm btn-primary"><i class="fa fa-plus-circle"></i> Hitung Baru</a>
+
+                            <div class="d-flex justify-content-between ">
+                              <h5 class="card-title">Data Hasil Hitung Fuzzy C-Means</h5>
+                              <div class="mt-3">
+                                <a href="{{route('fuzzy-c-means')}}"  class="btn  button-tambah"><i class="fa fa-plus-circle"></i> Hitung Baru
+                                </a>
+                              </div>
                             </div>
-                            <table class="table table-striped table-bordered zero-configuration">
+                            <table class="table datatable  table-bordered zero-configuration">
                                 <thead>
                                 <tr>
                                     <th>No</th>
@@ -27,7 +32,7 @@
                                         <td>{{$value->hasil_iterasi}}</td>
                                         <td>{{number_format(abs($value->hasil_error_terkecil), 6, '.', '')}}</td>
                                         <td>
-                                            <a href="{{route('fcm.detail',$value->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i> Lihat</a>
+                                            <a href="{{route('fcm.detail',$value->id)}}" class="btn btn-sm button-tambah"><i class="bi bi-eye"></i> Lihat</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -1,9 +1,11 @@
 @extends('layouts.layoutmaster')
 @section('content')
     <div class="row">
+
         <div class="col-md-4 col-sm-12">
             <div class="card">
                 <div class="card-content">
+
                     <div class="card-body">
                         <h6 class="mt-4 text-bold"><b>Perhitungan</b></h6>
                         <hr>
@@ -28,13 +30,33 @@
                 </div>
             </div>
         </div>
+        <!-- <div class="col-md-5 col-sm-12">
+            <div class="card">
+                <div class="card-content">
+
+                    <div class="card-body">
+                        <h6 class="mt-4 text-bold"><b>Grafik</b></h6>
+                        <hr>
+                        <canvas id="clusterChart" style="max-height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div> -->
     </div>
      <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <h6 class="mt-4"><b>Hasil Cluster Sapi Berkualitas</b></h6>
+                        <div class="d-flex justify-content-between ">
+                            <h6 class="mt-4"><b>Hasil Cluster Sapi Berkualitas</b></h6>
+                            <div class="mt-3">
+
+                            <a href="{{ route('fcm.export',['id' => $hasilfcm->id, 'format'=>'xlsx' ]) }}" class="btn text-white" style="background: rgb(53, 162, 162)"><i class="fas fa-table"></i>Export Excel</a>
+                            <a href="{{ route('fcm.export',['id' => $hasilfcm->id, 'format'=>'csv']) }}" class="btn text-white" style="background: rgb(15, 136, 136)"><i class="fas fa-file-csv"></i></i>Export
+                            CSV</a>
+                            </div>
+                        </div>
                         <hr>
                        <div style="overflow-x: auto;">
                         <table class="table mt-2 sapi table-striped table-bordered ">
@@ -75,7 +97,7 @@
                                     <td>{{$datasetsapi[$key]->kaki_tegak_besar}}</td>
                                     <td>{{$datasetsapi[$key]->kondisi_gigi_lengkap}}</td>
                                     <td>{{$datasetsapi[$key]->kondisi_mata_normal}}</td>
-                                    <td>{{$value}}</td>
+                                    <td>{{$value}} ( {{$value == 2 ? 'Berkualitas' : 'Tidak Berkualitas'}})</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -151,9 +173,10 @@
                             <tr>
                                 <th>Iterasi</th>
                                 <th>Fungsi Objektif</th>
-                                <th>Error</th>
+                                <th>Batas Error</th>
                             </tr>
                             </thead>
+                            <tbody>
                             @php
                                 $hasilFungsiObjektif = json_decode($hasilfcm->fungsi_objektif);
                                 $hasilError = json_decode($hasilfcm->error);
@@ -165,6 +188,14 @@
                                     <td>{{number_format(abs($hasilError[$key]), 6, '.', '')}}</td>
                                 </tr>
                             @endforeach
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                 <th>Iterasi</th>
+                                <th>Fungsi Objektif</th>
+                                <th>Batas Error</th>
+                            </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -193,5 +224,60 @@
               new simpleDatatables.DataTable(tableSapi);
           }
       });
+
+
+
     </script>
+
+    <script>
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Data cluster yang di-passing dari PHP
+
+        const hasilCluster = @json($hasilfcm->hasil_cluster);
+        const cluster = @json($hasilfcm->hasil_jumlah_cluster);
+        // Membuat label dinamis sesuai jumlah cluster
+          const labels = [];
+          let backgroundC;
+          let borderC;
+
+          for (let i = 1; i <= cluster; i++) {
+              labels.push('Cluster ' + i);
+              if(i == 4){
+                backgroundC = ['red','blue','green','yellow'];
+              }else if(i == 3){
+                backgroundC = ['red','blue','green'];
+              }else if(i == 2){
+                backgroundC = ['red','blue'];
+              }
+          }
+          console.log("bg",backgroundC)
+        console.log("Labels: ", labels);
+
+        // Inisialisasi grafik menggunakan Chart.js
+        const ctx = document.getElementById('clusterChart').getContext('2d');
+        const clusterChart = new Chart(ctx, {
+            type: 'doughnut', // Tipe grafik (bisa 'bar', 'line', 'pie', dll.)
+            data: {
+                labels: labels, // Label sumbu X
+                datasets: [{
+                    label: 'Jumlah Cluster',
+                    data: data, // Data untuk sumbu Y
+                    backgroundColor: backgroundC,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true // Sumbu Y mulai dari 0
+                    }
+                }
+            }
+        });
+    });
+</script>
+
 @endsection

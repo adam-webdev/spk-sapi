@@ -10,55 +10,55 @@
           <div class="card">
             <div class="card-body">
               <div class="d-flex justify-content-between ">
-                <h5 class="card-title">Fuzzy C-Means</h5>
+                <h5 class="card-title">Fuzzy Tahani</h5>
 
               </div>
                 <hr >
-              <form class="row g-3 mt-3" method="post" action="{{route('fuzzy-c-means.process')}}">
+              <form class="row g-3 mt-3" method="post" action="{{route('ftahani.process')}}">
                 @csrf
                 <div class="form-group row">
                   <div class="col-md-6">
                     <div class="form-floating">
-                       <select name="cluster" class="form-select @error('cluster') is-invalid @enderror" id="floatingcluster" aria-label="State">
+                       <select name="jenis_sapi" class="form-select @error('jenis_sapi') is-invalid @enderror" id="floatingjenis" aria-label="State">
                         <option value="">-- Pilih salah satu --</option>
-                        <option value="2">2</option>
-                        <!-- <option value="3">3</option>
-                        <option value="4">4</option> -->
+                        @foreach($sapi as $i => $value)
+                        <option value="{{$sapi[$i]->jenis_sapi}}">{{$sapi[$i]->jenis_sapi}}</option>
+                        @endforeach
                       </select>
-                      <label for="floatingcluster">Pilih Jumlah Cluster</label>
-                        @error('cluster')
+                      <label for="floatingjenis">Pilih jenis sapi</label>
+                        @error('jenis_sapi')
                         <div class="invalid-feedback">{{ $message }}</div>
                       @enderror
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-floating">
-                     <select name="epsilon" class="form-select @error('epsilon') is-invalid @enderror" id="floatingepsilon" aria-label="State">
+                     <select name="umur" class="form-select @error('umur') is-invalid @enderror" id="floatingumur" aria-label="State">
                         <option value="">-- Pilih salah satu --</option>
-                        <option value="0.000001">0.000001</option>
-                        <option value="0.00001">0.00001</option>
-                        <option value="0.0001">0.0001</option>
-                        <option value="0.001">0.001</option>
-                        <option value="0.01">0.01</option>
+                        <option value="muda">Muda</option>
+                        <option value="dewasa">Dewasa</option>
+                        <option value="tua">Tua</option>
                       </select>
-                      <label for="floatingepsilon">Pilih Epsilon</label>
+                      <label for="floatingumur">Pilih Umur</label>
                     </div>
                   </div>
                 </div>
                 <div class="form-group row mt-4">
                   <div class="col-md-6">
                     <div class="form-floating">
-                      <input name="max_iter" min="10" type="number" class="form-control @error('max_iter') is-invalid @enderror" id="floatingIter" placeholder="100">
-                      <label for="floatingIter">Max iterasi </label>
-                      @error('max_iter')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                      @enderror
+                     <select name="berat" class="form-select @error('berat') is-invalid @enderror" id="floatingberat" aria-label="State">
+                        <option value="">-- Pilih salah satu --</option>
+                        <option value="ringan">Ringan</option>
+                        <option value="sedang">Sedang</option>
+                        <option value="berat">Berat</option>
+                      </select>
+                      <label for="floatingberat">Pilih Berat</label>
                     </div>
                   </div>
                 </div>
 
                 <div class="text-center col-md-12">
-                  <button type="submit" class="btn button-tambah w-100  ">Proses Hitung FCM</button>
+                  <button type="submit" class="btn button-tambah w-100  ">Cari Data </button>
                   <button type="button" class="btn btn-secondary w-100  mt-2" onclick="window.history.back(-1);"
 
                   >Kembali</button>

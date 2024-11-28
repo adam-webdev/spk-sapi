@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlgoritmaController;
 use App\Http\Controllers\FCMController;
+use App\Http\Controllers\FuzzyTahaniController;
 use App\Http\Controllers\ImportExportSapiController;
 use App\Http\Controllers\Sapi;
 use App\Http\Controllers\SapiTestingController;
@@ -27,16 +28,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dataset-sapi', [Sapi::class, 'datasetSapi'])->name('dataset-sapi');
 
 
-
-
-    // sapi testing
-    Route::resource('sapi-testing', SapiTestingController::class);
-    Route::get('/sapi-testing/{id}/delete', [SapiTestingController::class, 'destroy']);
-    Route::post('/sapi-testing-import', [SapiTestingController::class, 'ImportDataTesting'])->name('sapi.import.testing');
-    Route::get('/sapi--testing-export', [SapiTestingController::class, 'ExportExcelTesting'])->name('sapi.excel.testing');
-    Route::get('/sapi--testing-exportcsv', [SapiTestingController::class, 'ExportCSVTesting'])->name('sapi.csv.testing');
-    Route::get('/sapi-testing-import-form', [SapiTestingController::class, 'formInputTesting'])->name('sapi.importForm.testing');
-
     // algoritma FCM
 
     Route::get('/fcm-data', [FCMController::class, 'index'])->name('fcm.data');
@@ -46,10 +37,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/fuzzy-c-means/{id}', [FCMController::class, 'detail'])->name('fcm.detail');
 
+    Route::get('/fuzzy-c-means/{id}/{format}', [FCMController::class, 'exportHasilFcm'])->name('fcm.export');
+
 
     Route::get('/generate-matrix', [AlgoritmaController::class, 'genereateMatriksU']);
 
-    Route::get('/fuzzy-tahani', [AlgoritmaController::class, 'ftahani'])->name('fuzzy-tahani');
+
+    // algoritma fuzzy tahani
+    Route::get('/fuzzy-tahani', [FuzzyTahaniController::class, 'index'])->name('fuzzy-tahani');
+
+    Route::get('/fuzzy-tahani/q', [FuzzyTahaniController::class, 'create'])->name('fuzzy-tahani.create');
+
+    Route::post('/fuzzy-tahani/q', [FuzzyTahaniController::class, 'store'])->name('ftahani.process');
 });
 
 Auth::routes();

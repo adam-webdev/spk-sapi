@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\HasilFcmSapi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FCMController extends Controller
 {
-
 
     public function fcm()
     {
@@ -31,6 +32,51 @@ class FCMController extends Controller
         return view('algoritma.fcm.detail', compact('hasilfcm', 'datasetsapi'));
     }
 
+
+    public function exportHasilFcm($id, $format)
+    {
+        $hasilfcm = DB::table('hasilfcm')->where('id', $id)->first();
+
+        $datasetsapi = DB::table('dataset_sapis')
+            ->join('sapis', 'dataset_sapis.x_sapi_id', '=', 'sapis.id')
+            ->get();
+
+        // Decode hasil cluster
+        $hasilCluster = json_decode($hasilfcm->hasil_cluster);
+        // Siapkan data untuk export
+        $dataForExport = [];
+        foreach ($hasilCluster as $key => $value) {
+            $dataForExport[] = [
+                'Cluster ID' => 'C' . str_pad($key + 1, 4, '0', STR_PAD_LEFT),
+                'Jenis Sapi' => $datasetsapi[$key]->jenis_sapi,
+                'Umur' => $datasetsapi[$key]->umur,
+                'Jenis Kelamin' => $datasetsapi[$key]->jenis_kelamin,
+                'Berat' => $datasetsapi[$key]->berat,
+                'Kondisi Mulut Datar' => $datasetsapi[$key]->kondisi_mulut_datar,
+                'Kepala' => $datasetsapi[$key]->kepala,
+                'Leher Bergelambir' => $datasetsapi[$key]->leher_bergelambir,
+                'Punggung Datar' => $datasetsapi[$key]->punggung_datar,
+                'Ekor Tidak Ada Legokan' => $datasetsapi[$key]->ekor_tidak_ada_legokan,
+                'Kaki Tegak Besar' => $datasetsapi[$key]->kaki_tegak_besar,
+                'Kondisi Gigi Lengkap' => $datasetsapi[$key]->kondisi_gigi_lengkap,
+                'Kondisi Mata Normal' => $datasetsapi[$key]->kondisi_mata_normal,
+                'Hasil Cluster' => $value .  " " .  ($value == 2 ? "( Berkualitas" : "Tidak Berkualitas") . ")",
+            ];
+        }
+        $format = request('format', 'xlsx'); // Default format adalah xlsx
+        // Pilih format export
+        $fileName = 'hasil_fcm_sapi.' . $format;
+        $export = new HasilFcmSapi($dataForExport);
+
+        // Export berdasarkan format
+        if ($format === 'csv') {
+            return Excel::download($export, $fileName, \Maatwebsite\Excel\Excel::CSV);
+        } elseif ($format === 'xlsx') {
+            return Excel::download($export, $fileName, \Maatwebsite\Excel\Excel::XLSX);
+        } else {
+            abort(400, 'Format not supported');
+        }
+    }
     public function prosesFCM(Request $request)
     {
         $jumlahCluster = $request->cluster;
