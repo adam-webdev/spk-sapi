@@ -10,6 +10,9 @@ class FuzzyTahaniController extends Controller
 {
     public function index()
     {
+
+
+
         $data = DB::table('sapis')->select('jenis_sapi', 'berat', 'umur')->get();
 
         $result = [];
@@ -40,25 +43,46 @@ class FuzzyTahaniController extends Controller
         $berat = $request->berat;
         $umur = $request->umur;
 
-        $data = DB::table('sapis')->select('jenis_sapi', 'berat', 'umur')->where('jenis_sapi', $request->jenis_sapi)->get();
+        $hasilfcm = DB::table('hasilfcm')->where('id', 1)->first();
+        $hasilCluster = json_decode($hasilfcm->hasil_cluster);
+
+        $datasetsapi = DB::table('dataset_sapis')
+            ->join('sapis', 'dataset_sapis.x_sapi_id', '=', 'sapis.id')
+            ->select('sapis.jenis_sapi', 'sapis.berat', 'sapis.umur')
+            ->where('sapis.jenis_sapi', $jenis)
+            ->get();
+
+        $data = [];
+
+        foreach ($datasetsapi as $key => $value) {
+
+            // jika sapi berkualitas
+            if ($hasilCluster[$key] == 2) {
+                $data[] = [
+                    'jenis_sapi' => $datasetsapi[$key]->jenis_sapi,
+                    'umur' => $datasetsapi[$key]->umur,
+                    'berat' => $datasetsapi[$key]->berat,
+                    'cluster' => $hasilCluster[$key],
+                ];
+            }
+        }
 
         $result = [];
 
         $nilaiTengah = 0.5;
 
         foreach ($data as $item) {
-            if ($this->keanggotaanBobot($item->berat)[$berat] >= $nilaiTengah && $this->keanggotaanUmur($item->umur)[$umur] >= $nilaiTengah) {
+            if ($this->keanggotaanBobot($item['berat'])[$berat] >= $nilaiTengah && $this->keanggotaanUmur($item['umur'])[$umur] >= $nilaiTengah) {
 
                 $result[] = [
-                    'jenis_sapi' => $item->jenis_sapi,
-                    'bobot_asli' => $item->berat,
-                    'umur_asli' => $item->umur,
-                    'keanggotaan_berat' => $this->keanggotaanBobot($item->berat),
-                    'keangotaan_umur' => $this->keanggotaanUmur($item->umur),
+                    'jenis_sapi' => $item['jenis_sapi'],
+                    'bobot_asli' => $item['berat'],
+                    'umur_asli' => $item['umur'],
+                    'keanggotaan_berat' => $this->keanggotaanBobot($item['berat']),
+                    'keangotaan_umur' => $this->keanggotaanUmur($item['umur']),
                 ];
             }
         }
-
         return view('algoritma.ftahani.hasil', compact('result', 'jenis', 'berat', 'umur'));
     }
 
