@@ -72,7 +72,7 @@
                       </div>
                     </td>
                     <td>{{$loop->iteration}}</td>
-                    <td>{{$sapi->id}} - {{$sapi->jenis_sapi}}</td>
+                    <td>{{$sapi->jenis_sapi}}</td>
                     <td>{{$sapi->umur}}</td>
                     <td>{{$sapi->jenis_kelamin }}</td>
                     <td>{{$sapi->berat}}</td>

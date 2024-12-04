@@ -38,7 +38,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="#" class="logo d-flex align-items-center">
-        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <img width="30" height="50" src="{{asset('assets/img/sapi.png')}}" alt="">
         <span class="d-none d-lg-block">MySistem</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -131,7 +131,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="#">
+        <a class="nav-link " href="/dashboard">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -159,11 +159,31 @@
               <i class="bi bi-circle"></i><span>Dataset Sapi</span>
             </a>
           </li>
+          <li>
+            <a href="{{route('datamatrix.2x2')}}">
+              <i class="bi bi-circle"></i><span>Matrix 2x2</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{route('datamatrix.3x3')}}">
+              <i class="bi bi-circle"></i><span>Matrix 3x3</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{route('datamatrix.4x4')}}">
+              <i class="bi bi-circle"></i><span>Matrix 4x4</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{route('datamatrix.5x5')}}">
+              <i class="bi bi-circle"></i><span>Matrix 5x5</span>
+            </a>
+          </li>
         </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav2" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Algoritma</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-bricks"></i><span>Algoritma</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -226,6 +246,27 @@
   </footer> -->
   <!-- End Footer -->
 
+
+  <!-- End Toast -->
+<!-- Toast Notification -->
+@if (session('success') || session('error') || session('info'))
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+    <div class="toast align-items-center text-bg-success border-0 show {{ session('error') ? 'text-bg-danger' : (session('info') ? 'text-bg-info' : 'text-bg-success') }}" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                {{ session('success') ?? session('error') ?? session('info') }}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+@endif
+<!-- End Toast -->
+
+  <!-- End Toast -->
+
+
+
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
@@ -243,6 +284,18 @@
   <script src="{{asset('assets/js/main.js')}}"></script>
 
   @yield('scripts')
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+        var toastList = toastElList.map(function (toastEl) {
+            return new bootstrap.Toast(toastEl);
+        });
+
+        toastList.forEach(toast => toast.show());
+    });
+</script>
+
 
 </body>
 

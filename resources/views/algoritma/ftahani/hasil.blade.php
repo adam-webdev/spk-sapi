@@ -35,6 +35,7 @@
                                 <thead>
                                 <tr>
                                     <th rowspan="2">No</th>
+                                    <th rowspan="2">Kode</th>
                                     <th rowspan="2">Jenis Sapi</th>
                                     <th rowspan="2">Usia (bln)</th>
                                     <th rowspan="2">Berat (kg)</th>
@@ -55,6 +56,7 @@
                                     @foreach($result as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
+                                        <td>{{$item['id']}}</td>
                                         <td>{{$item['jenis_sapi']}}</td>
                                         <td>{{$item['umur_asli']}}</td>
                                         <td>{{$item['bobot_asli']}}</td>

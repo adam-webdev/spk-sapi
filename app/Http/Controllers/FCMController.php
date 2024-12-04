@@ -29,7 +29,11 @@ class FCMController extends Controller
         $datasetsapi = DB::table('dataset_sapis')
             ->join('sapis', 'dataset_sapis.x_sapi_id', '=', 'sapis.id')
             ->get();
-        return view('algoritma.fcm.detail', compact('hasilfcm', 'datasetsapi'));
+
+        // cluster untuk graphic
+        $dataCluster = array_count_values(json_decode($hasilfcm->hasil_cluster));
+
+        return view('algoritma.fcm.detail', compact('hasilfcm', 'datasetsapi', 'dataCluster'));
     }
 
 

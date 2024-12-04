@@ -82,6 +82,8 @@ class Sapi extends Controller
         $sapi->kondisi_gigi_lengkap = $request->kondisi_gigi_lengkap;
         $sapi->kondisi_mata_normal = $request->kondisi_mata_normal;
         $sapi->save();
+        session()->flash('success', 'Data berhasil disimpan.');
+
         return redirect('/sapi');
     }
 
@@ -147,6 +149,8 @@ class Sapi extends Controller
         $sapi->kondisi_gigi_lengkap = $request->kondisi_gigi_lengkap;
         $sapi->kondisi_mata_normal = $request->kondisi_mata_normal;
         $sapi->save();
+        session()->flash('success', 'Data berhasil diubah.');
+
         return redirect('/sapi');
     }
 
@@ -157,9 +161,14 @@ class Sapi extends Controller
     {
         $sapi = \App\Models\Sapi::find($id);
         if (!$sapi) {
+
+            session()->flash('error', 'Data tidak ditemukan.');
+
             return redirect('/sapi');
         }
         $sapi->delete();
+        session()->flash('success', 'Data berhasil dihapus.');
+
         return redirect('/sapi');
     }
 
@@ -328,6 +337,7 @@ class Sapi extends Controller
         DB::table('dataset_sapis')->truncate();
         DB::table('dataset_sapis')->insert($datasetSapi);
 
-        return redirect('dataset');
+        session()->flash('success', 'Data berhasil diload.');
+        return redirect('dataset-sapi');
     }
 }

@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-5 col-sm-12">
+        <div class="col-md-5 col-sm-12">
             <div class="card">
                 <div class="card-content">
 
@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
      <div class="row">
         <div class="col-sm-12">
@@ -237,45 +237,29 @@
 
         const hasilCluster = @json($hasilfcm->hasil_cluster);
         const cluster = @json($hasilfcm->hasil_jumlah_cluster);
+        const dataCluster = @json($dataCluster);
         // Membuat label dinamis sesuai jumlah cluster
-          const labels = [];
-          let backgroundC;
-          let borderC;
-
-          for (let i = 1; i <= cluster; i++) {
-              labels.push('Cluster ' + i);
-              if(i == 4){
-                backgroundC = ['red','blue','green','yellow'];
-              }else if(i == 3){
-                backgroundC = ['red','blue','green'];
-              }else if(i == 2){
-                backgroundC = ['red','blue'];
-              }
-          }
-          console.log("bg",backgroundC)
-        console.log("Labels: ", labels);
-
+        console.log(dataCluster[0]);
         // Inisialisasi grafik menggunakan Chart.js
         const ctx = document.getElementById('clusterChart').getContext('2d');
         const clusterChart = new Chart(ctx, {
-            type: 'doughnut', // Tipe grafik (bisa 'bar', 'line', 'pie', dll.)
-            data: {
-                labels: labels, // Label sumbu X
-                datasets: [{
-                    label: 'Jumlah Cluster',
-                    data: data, // Data untuk sumbu Y
-                    backgroundColor: backgroundC,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true // Sumbu Y mulai dari 0
-                    }
-                }
-            }
+           type: 'doughnut',
+                    data: {
+                      labels: [
+                          'Berkualitas',
+                        'Tidak Berkualitas',
+                      ],
+                      datasets: [{
+                        label: 'Cluster Sapi',
+                        data: [dataCluster[2],dataCluster[1] ],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                        ],
+                        hoverOffset: 4
+                      }]
+                    },
+
         });
     });
 </script>

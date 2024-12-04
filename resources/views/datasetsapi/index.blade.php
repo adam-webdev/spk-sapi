@@ -12,6 +12,9 @@
               <div class="d-flex justify-content-between ">
                 <h5 class="card-title">Dataset Sapi</h5>
 
+                <a href="{{route('datasetsapi.load')}}" class="mt-2">
+                    <button type="button" class="btn button-tambah"><i class="bi bi-arrow-clockwise me-1"></i> Load Dataset</button>
+                  </a>
                 </div>
               <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p> -->
 

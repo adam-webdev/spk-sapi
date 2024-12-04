@@ -48,7 +48,7 @@ class FuzzyTahaniController extends Controller
 
         $datasetsapi = DB::table('dataset_sapis')
             ->join('sapis', 'dataset_sapis.x_sapi_id', '=', 'sapis.id')
-            ->select('sapis.jenis_sapi', 'sapis.berat', 'sapis.umur')
+            ->select('sapis.jenis_sapi', 'sapis.berat', 'sapis.umur', 'sapis.id')
             ->where('sapis.jenis_sapi', $jenis)
             ->get();
 
@@ -59,6 +59,7 @@ class FuzzyTahaniController extends Controller
             // jika sapi berkualitas
             if ($hasilCluster[$key] == 2) {
                 $data[] = [
+                    'id' => $datasetsapi[$key]->id,
                     'jenis_sapi' => $datasetsapi[$key]->jenis_sapi,
                     'umur' => $datasetsapi[$key]->umur,
                     'berat' => $datasetsapi[$key]->berat,
@@ -73,8 +74,8 @@ class FuzzyTahaniController extends Controller
 
         foreach ($data as $item) {
             if ($this->keanggotaanBobot($item['berat'])[$berat] >= $nilaiTengah && $this->keanggotaanUmur($item['umur'])[$umur] >= $nilaiTengah) {
-
                 $result[] = [
+                    'id' => $item['id'],
                     'jenis_sapi' => $item['jenis_sapi'],
                     'bobot_asli' => $item['berat'],
                     'umur_asli' => $item['umur'],

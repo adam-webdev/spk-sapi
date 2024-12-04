@@ -52,7 +52,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="#" class="logo d-flex align-items-center w-auto">
-                  <!-- <img src="assets/img/logo.png" alt=""> -->
+                  <img src="{{asset('assets/img/sapi.png')}}" alt="">
                   <span class="d-none d-lg-block">MySistem</span>
                 </a>
               </div><!-- End Logo -->
@@ -63,7 +63,7 @@
 
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Silahkan Masuk </h5>
-                    <p class="text-center small">Masukan email dan password untuk masuk</p>
+                    <p class="text-center small">Silahkan masukan email dan password. </p>
                   </div>
 
                   <form class="row g-3 needs-validation" novalidate method="post" action="{{route('login')}}">
@@ -71,7 +71,7 @@
                     <div class="col-12">
                       <label for="email" class="form-label">Email </label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <!-- <span class="input-group-text" id="inputGroupPrepend">@</span> -->
                         <input type="email" name="email" class="form-control" id="email" required>
                         <div class="invalid-feedback">Please enter your email.</div>
                       </div>
@@ -90,7 +90,7 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Login</button>
+                      <button class="btn button-tambah w-100" type="submit">Login</button>
                     </div>
                     <!-- <div class="col-12">
                       <p class="small mb-0">Belum mempunyai akun? <a href="pages-register.html">Create an account</a></p>
