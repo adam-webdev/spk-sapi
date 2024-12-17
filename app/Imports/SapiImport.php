@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Sapi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\OnEachRow;
@@ -48,14 +49,14 @@ class SapiImport implements ToModel, WithStartRow, WithHeadingRow
     // }
     public function startRow(): int
     {
-        return 3;
+        return 2;
     }
 
 
 
     public function uniqueBy()
     {
-        return 'no';
+        return 'kode_sapi';
     }
     // public function headings(): array
     // {
@@ -65,23 +66,19 @@ class SapiImport implements ToModel, WithStartRow, WithHeadingRow
 
     public function model(array $row)
     {
-        // if ($row[13] == 'delete') {
-        //     Sapi::where('id', $row[0])->delete();
-        // } else {
-
         return new Sapi([
-            'id' => $row['no'],
+            'id' => $row['kode_sapi'],
             'jenis_sapi' => $row['jenis_sapi'],
             'umur' => $row['umur_bulan'],
             'jenis_kelamin' => $row['jenis_kelamin'],
             'berat' => $row['bobot_kg'],
             'kondisi_mulut_datar' => $row['kondisi_mulut_datar_papak'],
             'kepala' => $row['kepala_sesuai_dengan_berat_badan_tdk'],
-            'leher_bergelambir' => $row['leher_bergelembirtdk_bergelembir'],
-            'punggung_datar' => $row['punggung_datarmelengkung'],
+            'leher_bergelambir' => $row['leher_bergelembir_tdk'],
+            'punggung_datar' => $row['punggung_datar_melengkung'],
             'ekor_tidak_ada_legokan' => $row['ekor_tidak_ada_legokan'],
             'kaki_tegak_besar' => $row['kaki_tegak_besar_tdk'],
-            'kondisi_gigi_lengkap' => $row['kondisi_gigi_lengkaptdk_lengkap'],
+            'kondisi_gigi_lengkap' => $row['kondisi_gigi_lengkap_tdk_lengkap'],
             'kondisi_mata_normal' => $row['kondisi_mata_normal_berlendir_kelopak_mata_menurun']
         ]);
         // }

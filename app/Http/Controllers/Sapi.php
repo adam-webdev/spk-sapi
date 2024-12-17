@@ -176,29 +176,33 @@ class Sapi extends Controller
     public function ImportData(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
             'file_import' => 'required|mimes:xlsx,csv,xls'
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         try {
-            DB::beginTransaction();
+
+            // Hapus data lama dari tabel 'sapis'
             DB::table('sapis')->truncate();
 
+
+            // Impor data dari file Excel setelah transaksi selesai
             Excel::import(new SapiImport, $request->file('file_import'));
-            DB::commit();
+
+            // Redirect setelah sukses
+            return redirect()->route('sapi.index')->with('success', 'Data berhasil dimasukkan');
         } catch (\Exception $e) {
-            DB::rollBack();
-            Alert::error('Gagal', 'Data gagal dimasukan');
-            return redirect()->route('sapi.index');
+            // Rollback transaksi jika terjadi error
+            // Tampilkan pesan error
+            Alert::error('Gagal', 'Data gagal dimasukkan');
+            return redirect()->route('sapi.index')->with('error', 'Data gagal dimasukkan');
         }
-        Excel::import(new SapiImport, $request->file('file_import'));
 
-
-        Alert::success('Berhasil', 'Data berhasil dimasukan');
-        return redirect()->route('sapi.index');
+        // Alert::success('Berhasil', 'Data berhasil dimasukan');
+        // return redirect()->route('sapi.index');
     }
 
     public function ExportExcel()

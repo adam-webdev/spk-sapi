@@ -45,7 +45,8 @@ class SapiExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
 
-        return ['Kode Sapi', 'Jenis Sapi', 'Umur', 'Berat', 'Jenis Kelamin',  'Kondisi Mulut', 'Kepala', 'Leher Bergelambir', 'Punggung Datar', 'Ekor Tidak Ada Legokan', 'Kaki Tegak Besar', 'Kondisi Gigi Lengkap', 'Kondisi Mata Normal'];
+
+        return ['kode_sapi', 'jenis_sapi', 'umur_bulan', 'jenis_kelamin', 'bobot_kg',  'kondisi_mulut_datar_papak', 'kepala_sesuai_dengan_berat_badan_tdk', 'leher_bergelembir_tdk', 'punggung_datar_melengkung', 'ekor_tidak_ada_legokan', 'kaki_tegak_besar_tdk', 'kondisi_gigi_lengkap_tdk_lengkap', 'kondisi_mata_normal_berlendir_kelopak_mata_menurun'];
     }
 
     public function collection()
