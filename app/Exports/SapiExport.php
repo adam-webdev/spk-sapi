@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SapiExport implements FromCollection, WithHeadings, WithMapping
+class SapiExport implements FromCollection, WithHeadings
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -24,23 +24,23 @@ class SapiExport implements FromCollection, WithHeadings, WithMapping
             ],
         ];
     }
-    public function map($row): array
-    {
-        $columnCek = ['jenis_kelamin', 'kondisi_mulut_datar', 'kepala', 'leher_bergelambir', 'punggung_datar', 'ekor_tidak_ada_legokan', 'kaki_tegak_besar', 'kondisi_gigi_lengkap', 'kondisi_mata_normal'];
+    // public function map($row): array
+    // {
+    //     $columnCek = ['jenis_kelamin', 'kondisi_mulut_datar', 'kepala', 'leher_bergelambir', 'punggung_datar', 'ekor_tidak_ada_legokan', 'kaki_tegak_besar', 'kondisi_gigi_lengkap', 'kondisi_mata_normal'];
 
-        $data =  [
-            $row->id,
-            $row->jenis_sapi,
-            $row->umur,
-            $row->berat,
-        ];
+    //     $data =  [
+    //         $row->id,
+    //         $row->jenis_sapi,
+    //         $row->umur,
+    //         $row->berat,
+    //     ];
 
-        foreach ($columnCek as $key => $column) {
-            $data[] = $row->$column === 0 ? '0' : $row->$column;
-        }
+    //     foreach ($columnCek as $key => $column) {
+    //         $data[] = $row->$column === 0 ? '0' : $row->$column;
+    //     }
 
-        return $data;
-    }
+    //     return $data;
+    // }
 
     public function headings(): array
     {
@@ -51,6 +51,6 @@ class SapiExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-        return Sapi::select('id', 'jenis_sapi', 'umur', 'berat', 'jenis_kelamin',  'kondisi_mulut_datar', 'kepala', 'leher_bergelambir', 'punggung_datar', 'ekor_tidak_ada_legokan', 'kaki_tegak_besar', 'kondisi_gigi_lengkap', 'kondisi_mata_normal')->get();
+        return Sapi::select('id', 'jenis_sapi', 'umur', 'jenis_kelamin',  'berat', 'kondisi_mulut_datar', 'kepala', 'leher_bergelambir', 'punggung_datar', 'ekor_tidak_ada_legokan', 'kaki_tegak_besar', 'kondisi_gigi_lengkap', 'kondisi_mata_normal')->get();
     }
 }

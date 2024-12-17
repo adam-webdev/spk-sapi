@@ -37,7 +37,7 @@
                                     <th rowspan="2">Berat (kg)</th>
                                     <th colspan="3" class="text-center" >Keanggotaan Umur</th>
                                     <th colspan="3" class="text-center" >Keanggotaan Bobot</th>
-                                    <th rowspan="2"><i class="mdi mdi-settings">Aksi</i></th>
+
                                 </tr>
                                 <tr>
                                     <th>Muda</th>
@@ -63,9 +63,9 @@
                                         <td>{{$item['keanggotaan_berat']['sedang']}}</td>
                                         <td>{{$item['keanggotaan_berat']['berat']}}</td>
 
-                                        <td>
+                                        <!-- <td>
                                             <a href="#" class="btn btn-sm button-tambah"><i class="bi bi-eye"></i> Lihat</a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     @endforeach
                                 </tbody>

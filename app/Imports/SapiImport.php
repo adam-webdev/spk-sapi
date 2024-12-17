@@ -66,6 +66,7 @@ class SapiImport implements ToModel, WithStartRow, WithHeadingRow
 
     public function model(array $row)
     {
+
         return new Sapi([
             'id' => $row['kode_sapi'],
             'jenis_sapi' => $row['jenis_sapi'],
